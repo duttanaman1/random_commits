@@ -1,0 +1,30 @@
+name: Scheduled Commit
+
+on:
+  schedule:
+    # This runs every 2 hours 
+    - cron: "0 */2 * * *"
+  workflow_dispatch: # Allows you to run it manually for testing
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Run random commit script
+        run: python random_commit.py
+
+      - name: Commit and Push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add autocommit.txt
+          git commit -m "Automated random commit - $(date)"
+          git push
