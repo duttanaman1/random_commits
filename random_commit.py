@@ -6,8 +6,13 @@ from datetime import datetime
 random_str = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
 content = f"Last auto-commit: {datetime.now()} - ID: {random_str}\n"
 
-# Append to a file named 'autocommit.txt'
-with open("autocommit.txt", "a") as f:
-    f.write(content)
+should_commit = random.choice([True, False])
 
-print(f"File updated with: {content}")
+# Append to a file named 'autocommit.txt'
+if should_commit:
+    with open("autocommit.txt", "a") as f:
+        f.write(content)
+
+    print("File updated")
+else:
+    print("No changes made")
